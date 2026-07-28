@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LKMS Daily Tracker</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="Assets/icon-192.png" type="image/png">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header with Live WIB Clock & Date -->
+    <header class="header-card">
+      <div class="header-top">
+        <div class="app-branding">
+          <div class="app-logo">
+            <img src="Assets/icon-192.png" alt="LKMS Logo">
+          </div>
+          <div>
+            <div class="badge">LKMS DAILY TRACKER</div>
+            <div class="time-display" id="wib-time">00:00:00 WIB</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="compare-btn" class="icon-btn" title="Compare Foto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="12" y1="3" x2="12" y2="21"></line>
+            </svg>
+          </button>
+          <button id="history-btn" class="icon-btn" title="Lihat History">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="date-display" id="wib-date">Senin, 1 Januari 2026</div>
+
+      <!-- Streak Counter Stats -->
+      <div class="streak-container">
+        <div class="streak-box">
+          <div class="streak-icon">🔥</div>
+          <div>
+            <div class="streak-val" id="current-streak">0 Hari</div>
+            <div class="streak-lbl">Current Streak</div>
+          </div>
+        </div>
+        <div class="streak-box">
+          <div class="streak-icon">🏆</div>
+          <div>
+            <div class="streak-val" id="best-streak">0 Hari</div>
+            <div class="streak-lbl">Best Streak</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Daily Progress Bar -->
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>Progress Absen Harian</span>
+        <span id="progress-text" class="highlight">0 / 9 Completed</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Daily Routine / Checklist Items -->
+    <main class="routine-list">
+
+      <div class="card-item" data-id="water">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Air Minum <span id="water-amount-txt" class="highlight">0</span> / 1.5 Liter</h3>
+          <p id="water-sub-txt">Minum 250ml tiap kali klik (+)</p>
+        </div>
+        <div class="card-action water-action-group">
+          <button id="water-add-btn" class="water-btn">+</button>
+          <input type="checkbox" id="check-water" class="custom-checkbox">
+          <label for="check-water"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="chintuck">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M12 11v3"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Chin Tuck</h3>
+          <p>Latihan postur leher</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-chintuck" class="custom-checkbox">
+          <label for="check-chintuck"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="neckcurls">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a3 3 0 0 0 0-6h-1"/><polyline points="16 6 18 10 14 10"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Neck Curls</h3>
+          <p>Penguatan otot leher</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-neckcurls" class="custom-checkbox">
+          <label for="check-neckcurls"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="workout">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5h11M6.5 17.5h11M2 12h20M4 9v6M20 9v6M7 5v14M17 5v14"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Workout Ringan</h3>
+          <p>Aktivitas fisik harian</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-workout" class="custom-checkbox">
+          <label for="check-workout"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="potassium">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7z"/><line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Potassium 1x Sehari</h3>
+          <p>Asupan nutrisi & mineral</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-potassium" class="custom-checkbox">
+          <label for="check-potassium"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="masseter">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Masseter Workout</h3>
+          <p>Latihan otot rahang</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-masseter" class="custom-checkbox">
+          <label for="check-masseter"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="diet">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Sodium & Sugar Limit</h3>
+          <p>Cegah bloating & wajah sembap</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-diet" class="custom-checkbox">
+          <label for="check-diet"></label>
+        </div>
+      </div>
+
+      <div class="card-item" data-id="sleep">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Tidur Tepat Waktu</h3>
+          <p>Target jam 21:00 - 22:00 WIB</p>
+        </div>
+        <div class="card-action">
+          <input type="checkbox" id="check-sleep" class="custom-checkbox">
+          <label for="check-sleep"></label>
+        </div>
+      </div>
+
+      <div class="card-item photo-card" data-id="photo">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff2a2a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <div class="card-info">
+          <h3>Foto Harian Progress</h3>
+          <p>Dokumentasi perubahan (Tekan foto untuk zoom)</p>
+          <div id="photo-preview-container" class="photo-preview-container hidden">
+            <img id="photo-preview" src="" alt="Progress Hari Ini">
+          </div>
+        </div>
+        <div class="card-action">
+          <label for="photo-input" class="upload-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </label>
+          <input type="file" id="photo-input" accept="image/*" class="hidden-input">
+          <input type="checkbox" id="check-photo" class="custom-checkbox hidden">
+        </div>
+      </div>
+
+      <!-- Cyberpunk Modern Keuangan & Notes Card -->
+      <div class="modern-finance-card">
+        <div class="finance-header">
+          <div class="finance-badge">FINANCE & LOGS</div>
+          <h3>💰 Celengan & Catatan</h3>
+        </div>
+
+        <div class="finance-inputs-grid">
+          <div class="cyber-input-wrapper in">
+            <span class="currency-tag">+ Rp</span>
+            <input type="number" id="money-in" placeholder="0" class="cyber-input">
+            <span class="input-glow"></span>
+          </div>
+
+          <div class="cyber-input-wrapper out">
+            <span class="currency-tag">- Rp</span>
+            <input type="number" id="money-out" placeholder="0" class="cyber-input">
+            <span class="input-glow"></span>
+          </div>
+        </div>
+
+        <div class="cyber-textarea-wrapper">
+          <textarea id="daily-notes" placeholder="Catatan hari ini (misal: Latihan leher makin mantap, beli vitamin...)" class="cyber-textarea"></textarea>
+        </div>
+      </div>
+
+      <div class="send-history-container">
+        <button id="send-history-btn" class="send-history-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+          Send to History
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- History Modal Window with Savings & Calendar -->
+  <div id="history-modal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Riwayat Absen Kalender</h2>
+        <button id="close-modal" class="close-btn">&times;</button>
+      </div>
+      
+      <div class="savings-banner">
+        <div class="savings-lbl">Total Tabungan / Celengan:</div>
+        <div class="savings-val" id="total-savings">Rp 0</div>
+      </div>
+
+      <div id="history-list" class="history-list"></div>
+      <div id="day-detail-container" class="day-detail-container hidden"></div>
+    </div>
+  </div>
+
+  <!-- Compare Photos Modal (Interactive Add/Delete/Calendar Picker) -->
+  <div id="compare-modal" class="modal-backdrop hidden">
+    <div class="modal-content compare-modal-content">
+      <div class="modal-header">
+        <h2>Bandingkan Progress Foto (3 Slot)</h2>
+        <button id="close-compare-btn" class="close-btn">&times;</button>
+      </div>
+      <div class="compare-container">
+        <div class="compare-grid">
+          <!-- Slot 1 -->
+          <div class="compare-slot" data-slot="0">
+            <div class="compare-img-box empty" id="compare-box-0">
+              <button class="add-photo-slot-btn" onclick="openPhotoPicker(0)">
+                <span class="plus-icon">+</span>
+                <span class="slot-lbl">Tambah Foto</span>
+              </button>
+            </div>
+          </div>
+          <!-- Slot 2 -->
+          <div class="compare-slot" data-slot="1">
+            <div class="compare-img-box empty" id="compare-box-1">
+              <button class="add-photo-slot-btn" onclick="openPhotoPicker(1)">
+                <span class="plus-icon">+</span>
+                <span class="slot-lbl">Tambah Foto</span>
+              </button>
+            </div>
+          </div>
+          <!-- Slot 3 -->
+          <div class="compare-slot" data-slot="2">
+            <div class="compare-img-box empty" id="compare-box-2">
+              <button class="add-photo-slot-btn" onclick="openPhotoPicker(2)">
+                <span class="plus-icon">+</span>
+                <span class="slot-lbl">Tambah Foto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Photo Picker Sub-Modal -->
+  <div id="photo-picker-modal" class="modal-backdrop hidden" style="z-index:105;">
+    <div class="modal-content" style="max-width:340px;">
+      <div class="modal-header">
+        <h2>Pilih Foto dari Kalender</h2>
+        <button id="close-picker-btn" class="close-btn">&times;</button>
+      </div>
+      <div id="picker-photo-grid" class="picker-photo-grid">
+        <!-- Calendar dates with photo loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Image Lightbox Viewer -->
+  <div id="image-lightbox" class="modal-backdrop hidden">
+    <button id="close-lightbox-btn" class="lightbox-close-btn">&times;</button>
+    <div class="lightbox-image-container">
+      <img id="lightbox-img" src="" alt="Full View Progress">
+    </div>
+  </div>
+
+  <div id="notif-modal" class="modal-backdrop hidden">
+    <div class="notif-card">
+      <div class="notif-icon" id="notif-icon">🔥</div>
+      <h2 id="notif-title">Tugas Harian Selesai!</h2>
+      <p id="notif-msg">Selamat menikmati hari mu!</p>
+      <button id="close-notif-btn" class="notif-btn">Siap!</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
