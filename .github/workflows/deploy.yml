@@ -29,7 +29,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g @capacitor/cli @capacitor/core
+          npm init -y
+          npm install @capacitor/cli @capacitor/core
           npm install --legacy-peer-deps
 
       - name: Prepare web folder
