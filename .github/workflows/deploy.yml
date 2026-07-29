@@ -30,7 +30,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm init -y
-          npm install @capacitor/cli @capacitor/core
+          npm install @capacitor/cli @capacitor/core @capacitor/android
           npm install --legacy-peer-deps
 
       - name: Prepare web folder
@@ -45,14 +45,8 @@ jobs:
           cp sw.js www/
           if [ -f "Assets/icon-192.png" ]; then cp Assets/icon-192.png www/Assets/; fi
 
-      - name: Init & Add Android platform
+      - name: Add Android platform
         run: |
-          echo '{
-            "appId": "com.lkms.tracker",
-            "appName": "LKMS Tracker",
-            "webDir": "www",
-            "bundledWebRuntime": false
-          }' > capacitor.config.json
           npx cap add android
 
       - name: Sync web app to Android
