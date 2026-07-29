@@ -47,7 +47,12 @@ jobs:
 
       - name: Init & Add Android platform
         run: |
-          npx cap init "LKMS Tracker" "com.lkms.tracker" --web-dir www --yes
+          echo '{
+            "appId": "com.lkms.tracker",
+            "appName": "LKMS Tracker",
+            "webDir": "www",
+            "bundledWebRuntime": false
+          }' > capacitor.config.json
           npx cap add android
 
       - name: Sync web app to Android
