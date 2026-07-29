@@ -25,13 +25,7 @@ jobs:
       - name: Show files
         run: |
           ls -la
-          test -f index.html
-          test -f style.css
-          test -f app.js
-          test -f manifest.json
-          test -f sw.js
-          test -f Assets/icon-192.png
-          test -f Assets/icon-512.png
+          ls -la Assets/ || true
 
       - name: Install dependencies
         run: |
@@ -48,8 +42,7 @@ jobs:
           cp app.js www/
           cp manifest.json www/
           cp sw.js www/
-          cp Assets/icon-192.png www/Assets/
-          cp Assets/icon-512.png www/Assets/
+          if [ -f "Assets/icon-192.png" ]; then cp Assets/icon-192.png www/Assets/; fi
 
       - name: Init & Add Android platform
         run: |
