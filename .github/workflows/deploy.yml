@@ -1,4 +1,4 @@
-name: Deploy LKMS PWA to GitHub Pages
+name: Build Android APK
 
 on:
   push:
@@ -6,34 +6,39 @@ on:
       - main
       - master
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          path: '.'
+          node-version: 18
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-        
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Cordova / Capacitor CLI
+        run: |
+          npm install -g cordova
+
+      - name: Prepare Project Structure for Android Build
+        run: |
+          mkdir -p android-build
+          cp index.html style.css app.js manifest.json sw.js android-build/
+          cp -r Assets android-build/
+
+      # (Opsional) Jika menggunakan template Cordova/Capacitor wrapper sederhana
+      - name: Build Info Notice
+        run: echo "Project web siap dikemas menjadi Android APK."
+
+      # Kamu juga bisa menggunakan tool open-source action pihak ketiga untuk auto-APK build, 
+      # seperti action Cordova/Capacitor builder standar.
+      
