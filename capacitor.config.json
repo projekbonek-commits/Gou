@@ -1,0 +1,7 @@
+{
+  "appId": "com.lkms.tracker",
+  "appName": "LKMS Tracker",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}
+
